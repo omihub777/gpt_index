@@ -124,13 +124,14 @@ class SimpleDirectoryReader(BaseReader):
 
         return new_input_files
 
-    def load_data(self, concatenate: bool = False) -> List[Document]:
+    def load_data(self, concatenate: bool = False, encoding: str = None) -> List[Document]:
         """Load data from the input directory.
 
         Args:
             concatenate (bool): whether to concatenate all files into one document.
                 If set to True, file metadata is ignored.
                 False by default.
+            encoding (str): which encoding to use when it loads data.
 
         Returns:
             List[Document]: A list of documents.
@@ -147,7 +148,7 @@ class SimpleDirectoryReader(BaseReader):
                 data = parser.parse_file(input_file, errors=self.errors)
             else:
                 # do standard read
-                with open(input_file, "r", errors=self.errors) as f:
+                with open(input_file, "r", encoding=encoding, errors=self.errors) as f:
                     data = f.read()
             if isinstance(data, List):
                 data_list.extend(data)
